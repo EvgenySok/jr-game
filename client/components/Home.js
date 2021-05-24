@@ -1,27 +1,22 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { createNewField } from '../redux/reducers/actions'
+import React from 'react'
+import { useSelector } from 'react-redux'
 
 import Navbar from './navbar'
 import OneSquare from './oneSquare'
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const { field } = useSelector(s => s.reducer)
-
-  useEffect(() => {
-    dispatch(createNewField())
-  }, [])
-  console.log('field home:', field)
-
+  const { field, currentRound } = useSelector(s => s.reducer)
 
   return (
     <>
       <Navbar />
       <div className="container">
-        <div className="square-container">
-          {field.map((square, id) => <OneSquare key={id} style={square.style} id={id} />)}
-        </div>
+        {currentRound === null
+          ? <h2>Start the game now !!!</h2>
+          : <div className="square-container">
+            {field.map((square, id) => <OneSquare key={id} square={square} id={id} />)}
+          </div>
+        }
       </div>
     </>
   )
