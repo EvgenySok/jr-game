@@ -17,11 +17,11 @@ export function createNewField() {
     newField.length = numberCards
     newField = newField.sort(() => Math.random() - 0.5)
     newField = newField.map(color => ({
-      cardStyle: { transform: 'rotateX(0deg)' },
-      backStyle: { backgroundColor: color },
+      color,
+      isHidden: false,
+      isShow:false,
     }))
-    console.log('newField:', newField)
-    
+
     dispatch({
       type: UPDATE_FIELD,
       payload: newField
@@ -30,7 +30,7 @@ export function createNewField() {
     if (currentRound === null) {
       dispatch({
         type: UPDATE_CURRENT_ROUND,
-        payload: currentRound + 1
+        payload: 1
       })
     }
   }
@@ -39,7 +39,7 @@ export function createNewField() {
 function checkRound() {
   return (dispatch, getState) => {
     const { field, currentRound, numberRounds } = getState().reducer
-    const isEnd = field.filter(square => square.cardStyle.visibility === 'hidden').length === field.length
+    const isEnd = field.filter(square => square.isHidden).length === field.length
     // end of the game
     if (isEnd && currentRound === numberRounds) {
       dispatch({
@@ -48,7 +48,7 @@ function checkRound() {
       })
     }
     // end of the round
-    else if (isEnd) {
+    else if (isEnd && currentRound !== null) {
       dispatch({
         type: UPDATE_CURRENT_ROUND,
         payload: currentRound + 1
@@ -61,7 +61,7 @@ function checkRound() {
 function checkMatch(id) {
   return (dispatch, getState) => {
     const { field, firstClickedItemID } = getState().reducer
-    // First clickFirst click
+    // First click
     if (firstClickedItemID === null) {
       dispatch({
         type: UPDATE_FIRST_CLICKED_ITEM_ID,
@@ -70,12 +70,11 @@ function checkMatch(id) {
     }
     // Match !!!
     else if (firstClickedItemID !== null &&
-      field[firstClickedItemID].backStyle.backgroundColor === field[id].backStyle.backgroundColor) {
+      field[firstClickedItemID].color === field[id].color) {
 
       const newField = field.map((it, index) => {
         if (index === id || index === firstClickedItemID) {
-          const newCardStyle = { ...it.cardStyle, opacity: 0, visibility: 'hidden', transform: 'rotateX(0deg)' }
-          return { ...it, cardStyle: newCardStyle }
+          return { ...it, isHidden: true, isShow: false }
         }
         return it
       })
@@ -91,11 +90,10 @@ function checkMatch(id) {
     }
     // Not Match :(
     else if (firstClickedItemID !== null &&
-      field[firstClickedItemID].backStyle.backgroundColor !== field[id].backStyle.backgroundColor) {
+      field[firstClickedItemID].color !== field[id].color) {
       const newField = field.map((it, index) => {
         if (index === id || index === firstClickedItemID) {
-          const newCardStyle = { ...it.cardStyle, transform: 'rotateX(0deg)' }
-          return { ...it, cardStyle: newCardStyle }
+          return { ...it, isShow: false }
         }
         return it
       })
@@ -120,8 +118,7 @@ export function updateClickedSquare(id) {
     if (id !== firstClickedItemID) {
       const newField = field.map((it, index) => {
         if (index === id) {
-          const newCardStyle = { ...it.cardStyle, transform: 'rotateX(180deg)' }
-          return { ...it, cardStyle: newCardStyle }
+          return { ...it, isShow: true }
         }
         return it
       })

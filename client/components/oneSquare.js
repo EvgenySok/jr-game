@@ -23,15 +23,14 @@ const OneSquare = ({ square, id }) => {
 
   return (
     <div
-      className="square"
       onClick={isClickActivated ? clickSquare : undefined}
-      style={square.cardStyle}
+      className={`square ${square.isHidden ? 'hide' : ''} ${square.isShow ? 'show' : ''}`}
       aria-hidden="true"
     >
       <div className="content front">
         <span>front</span>
       </div>
-      <div className="content back" style={square.backStyle}>
+      <div className="content back" style={{ 'backgroundColor': square.color }}>
         <span>back</span>
       </div>
     </div>

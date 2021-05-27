@@ -24,7 +24,7 @@
 .container {
   margin: 0 auto;
   max-width: 500px;
-  text-align:  center;
+  text-align: center;
 }
 
 .item {
@@ -86,7 +86,13 @@ a:hover {
     backface-visibility: hidden;
   }
 }
-
+.show {
+  transform: rotateX(180deg);
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
 .front {
   z-index: 1;
   transform: rotateX(0deg);
