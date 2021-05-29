@@ -1,4 +1,5 @@
 import {
+  SET_FIELD_SIZE,
   TRANSITION_DELAY,
   UPDATE_CURRENT_ROUND,
   UPDATE_FIELD, UPDATE_FIRST_CLICKED_ITEM_ID
@@ -7,20 +8,31 @@ import {
 
 export function createNewField() {
   return (dispatch, getState) => {
-    const { colorPalette, numberColorsOnField, numberCards, currentRound } = getState().reducer
+    const { colorPalette, numberColorsOnField, currentRound, widthField, heightField } = getState().reducer
     const rundomColors = colorPalette.sort(() => Math.random() - 0.5).slice(0, numberColorsOnField)
-
+    const numberCards = widthField * heightField
     let newField = []
     while (newField.length < numberCards) {
       newField = [...newField, ...rundomColors]
     }
+
     newField.length = numberCards
-    newField = newField.sort(() => Math.random() - 0.5)
+
     newField = newField.map(color => ({
       color,
       isHidden: false,
-      isShow:false,
+      isShow: true,
     }))
+
+
+    if (numberCards % 2 !== 0) {
+      const indexCentralElement = Math.floor(numberCards / 2)
+      newField.length = numberCards - 1
+      newField = newField.sort(() => Math.random() - 0.5)
+      newField.splice(indexCentralElement, 0, { isHidden: true, isShow: true, })
+    } else {
+      newField = newField.sort(() => Math.random() - 0.5)
+    }
 
     dispatch({
       type: UPDATE_FIELD,
@@ -130,6 +142,11 @@ export function updateClickedSquare(id) {
     }
   }
 }
+
+export const setFieldSize = (width, height) => ({
+  type: SET_FIELD_SIZE,
+  width, height,
+})
 
 
 
