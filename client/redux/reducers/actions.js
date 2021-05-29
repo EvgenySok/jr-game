@@ -31,7 +31,7 @@ export function createNewField() {
     newField = newField.map(color => ({
       color,
       isHidden: false,
-      isShow: true,
+      isShow: false,
     }))
 
 
