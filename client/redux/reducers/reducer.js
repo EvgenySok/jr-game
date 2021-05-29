@@ -1,12 +1,13 @@
 import {
   SET_FIELD_SIZE,
+  SET_NUMBER_ROUNDS,
+  SET_NUMBER_VARIANTS,
   UPDATE_CURRENT_ROUND,
   UPDATE_FIELD, UPDATE_FIRST_CLICKED_ITEM_ID,
 } from './types'
 
 const inicialState = {
-  colorPalette: ['#1F2937', '#991B1B', '#92400E', '#065F46', '#1E40AF', '#3730A3', '#5B21B6', '#9D174D'],
-  numberColorsOnField: 2,
+  numberVariantsOnField: 2,
   widthField: 2,
   heightField: 2,
   firstClickedItemID: null,
@@ -34,6 +35,12 @@ export const reducer = (state = inicialState, action) => {
         widthField: action.width ? action.width : state.widthField,
         heightField: action.height ? action.height : state.heightField
       }
+
+    case SET_NUMBER_VARIANTS:
+      return { ...state, numberVariantsOnField: action.payload }
+    
+      case SET_NUMBER_ROUNDS:
+        return { ...state, numberRounds: action.payload }
 
     default:
       return state

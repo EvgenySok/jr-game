@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewField } from '../redux/reducers/actions'
 import { UPDATE_CURRENT_ROUND } from '../redux/reducers/types'
+import SelectNumberRounds from './selectNumberRounds'
+import SelectNumberVariants from './selectNumberVariants'
 import SelectSize from './selectSize'
 
 const Navbar = () => {
@@ -18,6 +20,8 @@ const Navbar = () => {
           <ul className="navbar-menu">
             <li><a href="#" onClick={() => dispatch(createNewField())}>Start</a></li>
             <li><SelectSize /></li>
+            <li><SelectNumberRounds /></li>
+            <li><SelectNumberVariants /></li>
           </ul>
         )
           : (

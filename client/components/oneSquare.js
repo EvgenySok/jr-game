@@ -34,7 +34,7 @@ const OneSquare = ({ square, id }) => {
         <span>front</span>
       </div>
       <div className="content back" style={{ 'backgroundColor': square.color }}>
-        <span>back</span>
+        <span>color: {square.color}</span>
       </div>
     </div>
   )

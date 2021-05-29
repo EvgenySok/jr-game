@@ -1,15 +1,25 @@
 import {
   SET_FIELD_SIZE,
+  SET_NUMBER_ROUNDS,
+  SET_NUMBER_VARIANTS,
   TRANSITION_DELAY,
   UPDATE_CURRENT_ROUND,
   UPDATE_FIELD, UPDATE_FIRST_CLICKED_ITEM_ID
 } from './types'
 
+function getRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i += 1) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
 
 export function createNewField() {
   return (dispatch, getState) => {
-    const { colorPalette, numberColorsOnField, currentRound, widthField, heightField } = getState().reducer
-    const rundomColors = colorPalette.sort(() => Math.random() - 0.5).slice(0, numberColorsOnField)
+    const { numberVariantsOnField, currentRound, widthField, heightField } = getState().reducer
+    const rundomColors = new Array(numberVariantsOnField).fill(null).map(() => getRandomColor())
     const numberCards = widthField * heightField
     let newField = []
     while (newField.length < numberCards) {
@@ -148,5 +158,13 @@ export const setFieldSize = (width, height) => ({
   width, height,
 })
 
+export const setNumberVariantsOnField = (number) => ({
+  type: SET_NUMBER_VARIANTS,
+  payload: number,
+})
 
+export const setNumberRounds = (number) => ({
+  type: SET_NUMBER_ROUNDS,
+  payload: number,
+})
 
